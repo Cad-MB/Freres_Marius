@@ -1,31 +1,31 @@
 package items;
 
-import java.awt.Image;
+import java.awt.*;
 import javax.swing.ImageIcon;
-import jeu.Main;
+import mechanics.Main;
 
 public class Item {
 
-	private int largeur, hauteur;
+	private int width, height;
 	private int x, y;
 	
 	protected Image imgObjet;
 	protected ImageIcon icoObjet;
 
-	public Item(int x, int y, int largeur, int hauteur){
+	public Item(int x, int y, int width, int height){
 		this.x = x;
 		this.y = y;
-		this.largeur = largeur;
-		this.hauteur = hauteur;
+		this.width = width;
+		this.height = height;
 	}
 
     public int getX() {return x;}
 
 	public int getY() {return y;}
 
-	public int getLargeur() {return largeur;}
+	public int getWidth() {return width;}
 
-	public int getHauteur() {return hauteur;}
+	public int getHeight() {return height;}
 	
 	public Image getImgObjet() {return imgObjet;}
 
@@ -33,15 +33,20 @@ public class Item {
 
 	public void setY(int y) {this.y = y;}
 
-	public void setLargeur(int largeur) {this.largeur = largeur;}
+	public void setWidth(int width) {this.width = width;}
 
-	public void setHauteur(int hauteur) {this.hauteur = hauteur;}
+	public void setHeight(int height) {this.height = height;}
 
 	public void deplacement(){
 		
 		if(Main.level1Scene.getxPos() >= 0){
 			this.x = this.x - Main.level1Scene.getDx();
 		}
+	}
+	public void drawHitbox(Graphics g) {
+		Color hitboxColor = new Color(255, 0, 0, 128); // Red with 50% transparency
+		g.setColor(hitboxColor);
+		g.drawRect(this.x, this.y, this.width, this.height);
 	}
 	
 }

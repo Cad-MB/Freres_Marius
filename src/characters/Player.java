@@ -6,10 +6,10 @@ import java.util.Objects;
 import javax.swing.ImageIcon;
 
 import items.Item;
-import jeu.Main;
+import mechanics.Main;
 import items.Coin;
 
-public class Marius extends Character {
+public class Player extends Character {
 
 
 	private final Image imgMario;
@@ -17,9 +17,9 @@ public class Marius extends Character {
     private int compteurSaut;
     private int compteurMort;
 
-	public Marius(int x, int y) {
+	public Player(int x, int y) {
 
-	super(x, y, 28, 50);
+	super(x, y, 28, 30);
         ImageIcon icoMario = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/mariusWalkR.png")));
 	this.imgMario = icoMario.getImage();
 	
@@ -38,19 +38,19 @@ public class Marius extends Character {
 	public Image marche(String nom, int frequence) {
     	String str;
     	ImageIcon ico;
-		Image img;			
+		Image img;
 		if (!this.marche || Main.level1Scene.getxPos() <= 0 || Main.level1Scene.getxPos() > 4430) {
-			if(this.versDroite){str = STR."src/images/\{nom}ArretDroite.png";}
-			else{str = STR."src/images/\{nom}ArretGauche.png";}
+			if(this.versDroite){str = STR."src/images/\{nom}NormalR.png";}
+			else{str = STR."src/images/\{nom}NormalL.png";}
 		}else{
 		    this.compteur++;
 		    if (this.compteur / frequence == 0) {
-		    	if(this.versDroite){str = STR."src/images/\{nom}ArretDroite.png";}
-		    	else{str = STR."src/images/\{nom}ArretGauche.png";}
+		    	if(this.versDroite){str = STR."src/images/\{nom}NormalR.png";}
+		    	else{str = STR."src/images/\{nom}NormalL.png";}
 		    }else{
-		    	if(this.versDroite){str = STR."src/images/\{nom}MarcheDroite.png";}
-		    	else{str = STR."src/images/\{nom}MarcheGauche.png";}
-		    }		    
+		    	if(this.versDroite){str = STR."src/images/\{nom}WalkR.png";}
+		    	else{str = STR."src/images/\{nom}WalkL.png";}
+		    }
 		    if (this.compteur == 2 * frequence) {this.compteur = 0;}
 		}
 
@@ -58,8 +58,8 @@ public class Marius extends Character {
 		img = ico.getImage();
 		return img;
 	}
-	
-    public Image saute(){		
+
+    public Image saute(){
 	    ImageIcon ico;
 	    Image img;
 	    String str;
@@ -71,7 +71,7 @@ public class Marius extends Character {
 			if(this.isVersDroite()){str = "/images/mariusJumpR.png";}
 			else{str = "/images/mariusJumpL.png";}
 			
-		}else if(this.getY() + this.getHauteur() < Main.level1Scene.getySol()){this.setY(this.getY() + 1);
+		}else if(this.getY() + this.getHeight() < Main.level1Scene.getySol()){this.setY(this.getY() + 1);
 			if(this.isVersDroite()){str = "/images/mariusJumpR.png";}
 			else{str = "/images/mariusJumpL.png";}
 			
@@ -95,10 +95,10 @@ public class Marius extends Character {
 			Main.level1Scene.setySol(item.getY());
 		}else if(!super.contactDessous(item)){
 			Main.level1Scene.setySol(293);
-			if(!this.saut){this.setY(243);}
+			if(!this.saut){this.setY(260);}
 		}
         if(super.contactDessus(item)){
-			Main.level1Scene.setHautPlafond(item.getY() + item.getHauteur());
+			Main.level1Scene.setHautPlafond(item.getY() + item.getHeight());
 		}else if(!super.contactDessus(item) && !this.saut){
 			Main.level1Scene.setHautPlafond(0);
 		}     

@@ -9,7 +9,7 @@ public class Coin extends Item implements Runnable{
 	private int compteur;
 
     public Coin(int x, int y){
-	    super(x, y, 30, 30);
+	    super(x, y, 15, 30);
 	    
 	    super.icoObjet = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/coin1.png")));
 	    super.imgObjet = super.icoObjet.getImage();
