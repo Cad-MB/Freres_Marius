@@ -1,6 +1,6 @@
 package mechanics;
 
-import levels.Level1Scene;
+import map.Level1Scene;
 
 import javax.swing.JFrame;
 

@@ -1,4 +1,4 @@
-package levels;
+package map;
 
 import characters.Enemy;
 import characters.Player;
@@ -57,6 +57,11 @@ public class Level1Scene extends JPanel {
 	public Coin coin8;
 	public Coin coin9;
 	public Coin coin10;
+	public Coin coin11;
+	public Coin coin12;
+	public Coin coin13;
+	public Coin coin14;
+	public Coin coin15;
 
 	public Enemy mushroom1;
 	public Enemy mushroom2;
@@ -76,8 +81,6 @@ public class Level1Scene extends JPanel {
 	public Enemy turtle7;
 	public Enemy turtle8;
 	public Enemy turtle9;
-
-	private final Image imgDrapeau;
 	private final Image imgChateauFin;
 
 	private final ArrayList<Item> tabItems;
@@ -104,65 +107,62 @@ public class Level1Scene extends JPanel {
 		this.imgFond1 = icoFond.getImage();
 		this.imgFond2 = icoFond.getImage();
 
-		player = new Player(300, 260);
+		player = new Player(250, 260);
+		bloc1 = Platforms.createBloc(325, 180);
+		coin1 = new Coin(365, 145);
+		bloc2 = Platforms.createBloc(400, 180);
+		coin2 = new Coin(440, 145);
+		bloc3 = Platforms.createBloc(475, 180);
 
 		pipe1 = Platforms.createPipe(600, 230);
+		coin3 = new Coin(1020, 190);
+
 		pipe2 = Platforms.createPipe(1000, 230);
+		mushroom1 = new Enemy("Mushroom", 1300, 263);
+
 		pipe3 = Platforms.createPipe(1600, 230);
+		mushroom2 = new Enemy("Mushroom",1700, 263);
+		mushroom3 = new Enemy("Mushroom",1800, 263);
+
 		pipe4 = Platforms.createPipe(1900, 230);
+		turtle1 = new Enemy("Turtle",2150, 243);
+		bloc4 = Platforms.createBloc(2200, 180);
+		coin4 = new Coin(2210, 140);
+		turtle2 = new Enemy("Turtle",2350, 243);
+
 		pipe5 = Platforms.createPipe(2500, 230);
+		bloc5 = Platforms.createBloc(2665, 160);
+		coin5 = new Coin(2675, 120);
+		bloc6 = Platforms.createBloc(2835, 160);
+		coin6 = new Coin(2845, 120);
+
 		pipe6 = Platforms.createPipe(3000, 230);
+		mushroom4 = new Enemy("Mushroom",3100, 263);
+		turtle3 = new Enemy("Turtle",3300, 243);
+		mushroom5 = new Enemy("Mushroom",3500, 263);
+		turtle4 = new Enemy("Turtle",3700, 243);
+		coin7 = new Coin(3350, 250);
+		coin8 = new Coin(3450, 250);
+
 		pipe7 = Platforms.createPipe(3800, 230);
-		pipe8 = Platforms.createPipe(4500, 230);
+		coin9 = new Coin(3900, 250);
+		coin10 = new Coin(3950, 230);
+		coin11 = new Coin(4000, 250);
+		coin12 = new Coin(4050, 230);
+		coin13 = new Coin(4100, 250);
+		coin14 = new Coin(4150, 230);
 
-		bloc1 = Platforms.createBloc(400, 180);
-		bloc2 = Platforms.createBloc(1200, 180);
-		bloc3 = Platforms.createBloc(1270, 170);
-		bloc4 = Platforms.createBloc(1340, 160);
-		bloc5 = Platforms.createBloc(2000, 180);
-		bloc6 = Platforms.createBloc(2600, 160);
-		bloc7 = Platforms.createBloc(2650, 180);
-		bloc8 = Platforms.createBloc(3500, 160);
-		bloc9 = Platforms.createBloc(3550, 140);
-		bloc10 = Platforms.createBloc(4000, 170);
-		bloc11 = Platforms.createBloc(4200, 200);
-		bloc12 = Platforms.createBloc(4300, 210);
-
-		coin1 = new Coin(402, 145);
-		coin2 = new Coin(1202, 140);
-		coin3 = new Coin(1272, 95);
-		coin4 = new Coin(1342, 40);
-		coin5 = new Coin(1650, 145);
-		coin6 = new Coin(2650, 145);
-		coin7 = new Coin(3000, 135);
-		coin8 = new Coin(3400, 125);
-		coin9 = new Coin(4200, 145);
-		coin10 = new Coin(4600, 40);
-
-		mushroom1 = new Enemy("Mushroom", 800, 263);
-		mushroom2 = new Enemy("Mushroom",1100, 263);
-		mushroom3 = new Enemy("Mushroom",2100, 263);
-		mushroom4 = new Enemy("Mushroom",2400, 263);
-		mushroom5 = new Enemy("Mushroom",3200, 263);
-		mushroom6 = new Enemy("Mushroom",3500, 263);
-		mushroom7 = new Enemy("Mushroom",3700, 263);
-		mushroom8 = new Enemy("Mushroom",4500, 263);
-
-		turtle1 = new Enemy("Turtle",950, 243);
-		turtle2 = new Enemy("Turtle",1500, 243);
-		turtle3 = new Enemy("Turtle",1800, 243);
-		turtle4 = new Enemy("Turtle",2400, 243);
-		turtle5 = new Enemy("Turtle",3100, 243);
-		turtle6 = new Enemy("Turtle",3600, 243);
-		turtle7 = new Enemy("Turtle",3900, 243);
-		turtle8 = new Enemy("Turtle",4200, 243);
-		turtle9 = new Enemy("Turtle",4400, 243);
+		bloc7 = Platforms.createBloc(4170, 260);
+		bloc8 = Platforms.createBloc(4236, 227);
+		bloc9 = Platforms.createBloc(4302, 194);
+		bloc10 = Platforms.createBloc(4368, 161);
+		bloc11 = Platforms.createBloc(4434, 128);
+		bloc12 = Platforms.createBloc(4500, 95);
+		coin15 = new Coin(4570, 55);
 
 		ImageIcon icoChateauFin = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/end.png")));
 		this.imgChateauFin = icoChateauFin.getImage();
 
-		ImageIcon icoDrapeau = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/flag.png")));
-		this.imgDrapeau = icoDrapeau.getImage();
 
 		tabItems = new ArrayList<>();
 		this.tabItems.add(this.pipe1);
@@ -172,7 +172,6 @@ public class Level1Scene extends JPanel {
 		this.tabItems.add(this.pipe5);
 		this.tabItems.add(this.pipe6);
 		this.tabItems.add(this.pipe7);
-		this.tabItems.add(this.pipe8);
 
 		this.tabItems.add(this.bloc1);
 		this.tabItems.add(this.bloc2);
@@ -198,6 +197,11 @@ public class Level1Scene extends JPanel {
 		this.tabCoins.add(this.coin8);
 		this.tabCoins.add(this.coin9);
 		this.tabCoins.add(this.coin10);
+		this.tabCoins.add(this.coin11);
+		this.tabCoins.add(this.coin12);
+		this.tabCoins.add(this.coin13);
+		this.tabCoins.add(this.coin14);
+		this.tabCoins.add(this.coin15);
 
 		tabMushrooms = new ArrayList<>();
 		this.tabMushrooms.add(this.mushroom1);
@@ -205,20 +209,12 @@ public class Level1Scene extends JPanel {
 		this.tabMushrooms.add(this.mushroom3);
 		this.tabMushrooms.add(this.mushroom4);
 		this.tabMushrooms.add(this.mushroom5);
-		this.tabMushrooms.add(this.mushroom6);
-		this.tabMushrooms.add(this.mushroom7);
-		this.tabMushrooms.add(this.mushroom8);
 
 		tabTurtles = new ArrayList<>();
 		this.tabTurtles.add(this.turtle1);
 		this.tabTurtles.add(this.turtle2);
 		this.tabTurtles.add(this.turtle3);
 		this.tabTurtles.add(this.turtle4);
-		this.tabTurtles.add(this.turtle5);
-		this.tabTurtles.add(this.turtle6);
-		this.tabTurtles.add(this.turtle7);
-		this.tabTurtles.add(this.turtle8);
-		this.tabTurtles.add(this.turtle9);
 
 		this.setFocusable(true);
 		this.requestFocusInWindow();
@@ -269,7 +265,7 @@ public class Level1Scene extends JPanel {
 	}
 
 	private boolean partieGagnee(){
-		return this.time.getCompteurTemps() > 0 && this.player.isVivant() && this.score.getNbrePieces() == 10
+		return this.time.getCompteurTemps() > 0 && this.player.isVivant() && this.score.getNbrePieces() == 15
 				&& this.xPos > 4400;
 	}
 
@@ -377,8 +373,7 @@ public class Level1Scene extends JPanel {
 			g.drawImage(tabCoin.bouge(), tabCoin.getX(), tabCoin.getY(), null);
 		}
 
-		g.drawImage(imgDrapeau, 4650 - this.xPos, 115, null);
-		g.drawImage(imgChateauFin, 5000 - this.xPos, 200, null);
+		g.drawImage(imgChateauFin, 4800 - this.xPos, 117, null);
 
 		if(this.player.isVivant()){
 			if(this.player.isSaut()){

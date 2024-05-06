@@ -1,4 +1,4 @@
-package levels;
+package map;
 
 import mechanics.Main;
 
@@ -34,7 +34,7 @@ public class HUB implements Runnable {
     }
 
     public int getNBRE_TOTAL_PIECES() {
-        return 10;
+        return 15;
     }
 
     // Timer methods
