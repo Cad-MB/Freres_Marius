@@ -10,7 +10,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		JFrame window = new JFrame("Frerers Marius");
+		JFrame window = new JFrame("Frerers Marius (A Mario Bros. 1983 Game - Level 1-1)");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setSize(700, 360);
 		window.setLocationRelativeTo(null);

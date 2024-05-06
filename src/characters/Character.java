@@ -14,10 +14,10 @@ public class Character {
 	private final int width;
     private final int height;
 	private int x, y;
-	protected boolean marche;
-	protected boolean versDroite;
-	public int compteur;
-	protected boolean vivant;
+	protected boolean walk;
+	protected boolean toRight;
+	public int count;
+	protected boolean alive;
 
 	public Character(int x, int y, int width, int height){
 				
@@ -25,10 +25,10 @@ public class Character {
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.compteur = 0;
-		this.marche = false;
-		this.versDroite = true;	
-		this.vivant = true;
+		this.count = 0;
+		this.walk = false;
+		this.toRight = true;
+		this.alive = true;
 	}
 
 	public int getX() {return x;}
@@ -39,43 +39,43 @@ public class Character {
 	
 	public int getHeight() {return height;}
 
-	public boolean isMarche() {return marche;}
+	public boolean isWalk() {return walk;}
 
-	public boolean isVersDroite() {return versDroite;}
+	public boolean isToRight() {return toRight;}
 
-	public int getCompteur() {return compteur;}
+	public int getCount() {return count;}
 	
-	public boolean isVivant() {return vivant;}
+	public boolean isAlive() {return alive;}
 
 	public void setX(int x) {this.x = x;}
 
 	public void setY(int y) {this.y = y;}
 	
-	public void setMarche(boolean marche) {this.marche = marche;}
+	public void setWalk(boolean walk) {this.walk = walk;}
 	
-	public void setVersDroite(boolean versDroite) {this.versDroite = versDroite;}
+	public void setToRight(boolean toRight) {this.toRight = toRight;}
 
-	public void setCompteur(int compteur) {this.compteur = compteur;}
+	public void setCount(int count) {this.count = count;}
 	
-	public void setVivant(boolean vivant) {this.vivant = vivant;}
+	public void setAlive(boolean alive) {this.alive = alive;}
 
-	public Image marche(String nom, int frequence){
+	public Image walk(String nom, int frequence){
 		String str;
 		ImageIcon ico;
 		Image img;		
-		if(!this.marche){
-			if(this.versDroite){str = STR."/images/\{nom}NormalR.png";}
+		if(!this.walk){
+			if(this.toRight){str = STR."/images/\{nom}NormalR.png";}
 			else{str = STR."/images/\{nom}NormalL.png";}
 		}else{
-			this.compteur++;
-			if(this.compteur / frequence == 0){
-				if(this.versDroite){str = STR."/images/\{nom}NormalR.png";}
+			this.count++;
+			if(this.count / frequence == 0){
+				if(this.toRight){str = STR."/images/\{nom}NormalR.png";}
 				else{str = STR."/images/\{nom}NormalL.png";}
 			}else{
-				if(this.versDroite){str = STR."/images/\{nom}WalkR.png";}
+				if(this.toRight){str = STR."/images/\{nom}WalkR.png";}
 				else{str = STR."/images/\{nom}WalkL.png";}
 			}
-			if(this.compteur == 2 * frequence){this.compteur = 0;}
+			if(this.count == 2 * frequence){this.count = 0;}
 		}
 
 		ico = new ImageIcon(Objects.requireNonNull(getClass().getResource(str)));
@@ -83,59 +83,59 @@ public class Character {
 		return img;
 	}
     
-	public void deplacement(){		
+	public void movement(){
 		if(Main.level1Scene.getxPos() >= 0){this.x = this.x - Main.level1Scene.getDx();}
 	}
 
-    protected boolean contactAvant(Item item){
+    protected boolean contactAhead(Item item){
         return this.x + this.width >= item.getX() && this.x + this.width <= item.getX() + 5 &&
                 this.y + this.height > item.getY() && this.y < item.getY() + item.getHeight();
 	} 
 
-    protected boolean contactArriere(Item item){
+    protected boolean contactBehind(Item item){
         return this.x <= item.getX() + item.getWidth() && this.x + this.width >= item.getX() + item.getWidth() - 5 &&
                 this.y + this.height > item.getY() && this.y < item.getY() + item.getHeight();
 	}
 
-    protected boolean contactDessous(Item item){
+    protected boolean contactDown(Item item){
         return this.x + this.width >= item.getX() + 5 && this.x <= item.getX() + item.getWidth() - 5 &&
                 this.y + this.height >= item.getY() && this.y + this.height <= item.getY() + 5;
 	}
 
-    protected boolean contactDessus(Item item){
+    protected boolean contactUp(Item item){
         return this.x + this.width >= item.getX() + 5 && this.x <= item.getX() + item.getWidth() - 5 &&
                 this.y >= item.getY() + item.getHeight() && this.y <= item.getY() + item.getHeight() + 5;
 	}   
     
-    public boolean proche(Item item){
+    public boolean nearr(Item item){
         return (this.x > item.getX() - 10 && this.x < item.getX() + item.getWidth() + 10)
                 || (this.x + this.width > item.getX() - 10 && this.x + this.width < item.getX() + item.getWidth() + 10);
     }
 
-    protected boolean contactAvant(Character character){
-		if(this.isVersDroite()){
+    protected boolean contactAhead(Character character){
+		if(this.isToRight()){
             return this.x + this.width >= character.getX() && this.x + this.width <= character.getX() + 5 &&
                     this.y + this.height > character.getY() && this.y < character.getY() + character.getHeight();
 		}else{return false;}
 	} 
     
-    protected boolean contactArriere(Character character){
+    protected boolean contactBehind(Character character){
         return this.x <= character.getX() + character.getWidth() && this.x + this.width >= character.getX() + character.getWidth() - 5 &&
                 this.y + this.height > character.getY() && this.y < character.getY() + character.getHeight();
 	}
     
-    protected boolean contactDessous(Character character){
+    protected boolean contactDown(Character character){
         return this.x + this.width >= character.getX() && this.x <= character.getX() + character.getWidth() &&
                 this.y + this.height >= character.getY() && this.y + this.height <= character.getY();
 	}
     
-    public boolean proche(Character character){
+    public boolean nearr(Character character){
         return (this.x > character.getX() - 10 && this.x < character.getX() + character.getWidth() + 10)
                 || (this.x + this.width > character.getX() - 10 && this.x + this.width < character.getX() + character.getWidth() + 10);
     }
 	// Method to draw hitbox for debugging
 	public void drawHitbox(Graphics g) {
-		Color hitboxColor = new Color(255, 0, 0, 128); // Red with 50% transparency
+		Color hitboxColor = new Color(255, 0, 0, 128);
 		g.setColor(hitboxColor);
 		g.drawRect(this.x, this.y, this.width, this.height);
 	}

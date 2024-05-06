@@ -14,14 +14,14 @@ import java.util.Objects;
 
 public class Level1Scene extends JPanel {
 
-	private final Image imgFond1;
-	private final Image imgFond2;
-	private int xFond1;
-	private int xFond2;
+	private final Image imgBR1;
+	private final Image imgBR2;
+	private int xBR1;
+	private int xBR2;
 	private int dx;
 	private int xPos;
-	private int ySol;
-	private int hauteurPlafond;
+	private int yGrnd;
+	private int heightUP;
 
 	public Player player;
 
@@ -32,7 +32,6 @@ public class Level1Scene extends JPanel {
 	public Platforms pipe5;
 	public Platforms pipe6;
 	public Platforms pipe7;
-	public Platforms pipe8;
 
 	public Platforms bloc1;
 	public Platforms bloc2;
@@ -68,20 +67,12 @@ public class Level1Scene extends JPanel {
 	public Enemy mushroom3;
 	public Enemy mushroom4;
 	public Enemy mushroom5;
-	public Enemy mushroom6;
-	public Enemy mushroom7;
-	public Enemy mushroom8;
 
 	public Enemy turtle1;
 	public Enemy turtle2;
 	public Enemy turtle3;
 	public Enemy turtle4;
-	public Enemy turtle5;
-	public Enemy turtle6;
-	public Enemy turtle7;
-	public Enemy turtle8;
-	public Enemy turtle9;
-	private final Image imgChateauFin;
+	private final Image imgEnd;
 
 	private final ArrayList<Item> tabItems;
 	private final ArrayList<Coin> tabCoins;
@@ -89,23 +80,23 @@ public class Level1Scene extends JPanel {
 	private final ArrayList<Enemy> tabMushrooms;
 
 	private final HUB score;
-	private final Font police;
+	private final Font fontt;
 	private final HUB time;
 
 	public Level1Scene(){
 
 		super();
 
-		this.xFond1 = -50;
-		this.xFond2 = 750;
+		this.xBR1 = -50;
+		this.xBR2 = 750;
 		this.dx = 0;
 		this.xPos = -1;
-		this.ySol = 260;
-		this.hauteurPlafond = 0;
+		this.yGrnd = 260;
+		this.heightUP = 0;
 
 		ImageIcon icoFond = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/BR.png")));
-		this.imgFond1 = icoFond.getImage();
-		this.imgFond2 = icoFond.getImage();
+		this.imgBR1 = icoFond.getImage();
+		this.imgBR2 = icoFond.getImage();
 
 		player = new Player(250, 260);
 		bloc1 = Platforms.createBloc(325, 180);
@@ -161,7 +152,7 @@ public class Level1Scene extends JPanel {
 		coin15 = new Coin(4570, 55);
 
 		ImageIcon icoChateauFin = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/end.png")));
-		this.imgChateauFin = icoChateauFin.getImage();
+		this.imgEnd = icoChateauFin.getImage();
 
 
 		tabItems = new ArrayList<>();
@@ -221,13 +212,12 @@ public class Level1Scene extends JPanel {
 		this.addKeyListener(new Keys());
 
 		score = new HUB();
-		police = new Font("Arial", Font.PLAIN, 18);
+		fontt = new Font("Arial", Font.PLAIN, 18);
 		time = new HUB();
 
-		// Creation and initiation of the HUB instance
 		HUB hub = new HUB();
 		Thread chronoEcran = new Thread(hub);
-		chronoEcran.start();  // Starting the thread to manage both the timer and repaint actions
+		chronoEcran.start();
 
 	}
 
@@ -235,42 +225,42 @@ public class Level1Scene extends JPanel {
 
 	public int getxPos() {return xPos;}
 
-	public int getySol() {return ySol;}
+	public int getyGrnd() {return yGrnd;}
 
-	public int getHautPlafond(){return hauteurPlafond;}
+	public int getHautPlafond(){return heightUP;}
 
 	public void setDx(int dx) {this.dx = dx;}
 
 	public void setxPos(int xPos) {this.xPos = xPos;}
 
-	public void setySol(int ySol) {this.ySol = ySol;}
+	public void setyGrnd(int yGrnd) {this.yGrnd = yGrnd;}
 
-	public void setHautPlafond(int hauteurPlafond) {this.hauteurPlafond = hauteurPlafond;}
+	public void setHautPlafond(int hauteurPlafond) {this.heightUP = hauteurPlafond;}
 
-	public void setxFond1(int xFond1) {this.xFond1 = xFond1;}
+	public void setxBR1(int xBR1) {this.xBR1 = xBR1;}
 
-	public void setxFond2(int xFond2) {this.xFond2 = xFond2;}
+	public void setxBR2(int xBR2) {this.xBR2 = xBR2;}
 
 	public void deplacementFond(){
 
 		if(this.xPos >= 0 && this.xPos <= 4430){
 			this.xPos = this.xPos + this.dx;
-			this.xFond1 = this.xFond1 - this.dx;
-			this.xFond2 = this.xFond2 - this.dx;
+			this.xBR1 = this.xBR1 - this.dx;
+			this.xBR2 = this.xBR2 - this.dx;
 		}
-		if(this.xFond1 == -800){this.xFond1 = 800;}
-		else if(this.xFond2 == -800){this.xFond2 = 800;}
-		else if(this.xFond1 == 800){this.xFond1 = -800;}
-		else if(this.xFond2 == 800){this.xFond2 = -800;}
+		if(this.xBR1 == -800){this.xBR1 = 800;}
+		else if(this.xBR2 == -800){this.xBR2 = 800;}
+		else if(this.xBR1 == 800){this.xBR1 = -800;}
+		else if(this.xBR2 == 800){this.xBR2 = -800;}
 	}
 
 	private boolean partieGagnee(){
-		return this.time.getCompteurTemps() > 0 && this.player.isVivant() && this.score.getNbrePieces() == 15
+		return this.time.getCountTime() > 0 && this.player.isAlive() && this.score.getNbrCoins() == 15
 				&& this.xPos > 4400;
 	}
 
 	private boolean partiePerdue(){
-		return !this.player.isVivant() || this.time.getCompteurTemps() <= 0;
+		return !this.player.isAlive() || this.time.getCountTime() <= 0;
 	}
 
 	public boolean finDePartie(){
@@ -284,26 +274,26 @@ public class Level1Scene extends JPanel {
 
 
 		for (Item item : this.tabItems) {
-			if (this.player.proche(item)) {
+			if (this.player.nearr(item)) {
 				this.player.contact(item);
 			}
 			for (Enemy tabMushroom : this.tabMushrooms) {
-				if (tabMushroom.proche(item)) {
+				if (tabMushroom.nearr(item)) {
 					tabMushroom.contact(item);
 				}
 			}
 			for (Enemy tabTurtle : this.tabTurtles) {
-				if (tabTurtle.proche(item)) {
+				if (tabTurtle.nearr(item)) {
 					tabTurtle.contact(item);
 				}
 			}
 		}
 
 		for(int i = 0; i < this.tabCoins.size(); i++){
-			if(this.player.proche(this.tabCoins.get(i))){
-				if(this.player.contactPiece(this.tabCoins.get(i))){
+			if(this.player.nearr(this.tabCoins.get(i))){
+				if(this.player.contactCoin(this.tabCoins.get(i))){
 					this.tabCoins.remove(i);
-					this.score.setNbrePieces(this.score.getNbrePieces() + 1);
+					this.score.setNbrCoins(this.score.getNbrCoins() + 1);
 				}
 			}
 		}
@@ -311,11 +301,11 @@ public class Level1Scene extends JPanel {
 		for(int i = 0; i < this.tabMushrooms.size(); i++){
 			for(int j = 0; j < this.tabMushrooms.size(); j++){
 				if(j != i){
-					if(this.tabMushrooms.get(j).proche(this.tabMushrooms.get(i))){this.tabMushrooms.get(j).contact(this.tabMushrooms.get(i));}
+					if(this.tabMushrooms.get(j).nearr(this.tabMushrooms.get(i))){this.tabMushrooms.get(j).contact(this.tabMushrooms.get(i));}
 				}
 			}
 			for (Enemy tabTurtle : this.tabTurtles) {
-				if (tabTurtle.proche(this.tabMushrooms.get(i))) {
+				if (tabTurtle.nearr(this.tabMushrooms.get(i))) {
 					tabTurtle.contact(this.tabMushrooms.get(i));
 				}
 			}
@@ -323,24 +313,24 @@ public class Level1Scene extends JPanel {
 
 		for(int i = 0; i < this.tabTurtles.size(); i++){
 			for (Enemy tabMushroom : this.tabMushrooms) {
-				if (tabMushroom.proche(this.tabTurtles.get(i))) {
+				if (tabMushroom.nearr(this.tabTurtles.get(i))) {
 					tabMushroom.contact(this.tabTurtles.get(i));
 				}
 			}
 			for(int j = 1; j < this.tabTurtles.size(); j++){
 				if(j != i){
-					if(this.tabTurtles.get(j).proche(this.tabTurtles.get(i))){this.tabTurtles.get(j).contact(this.tabTurtles.get(i));}
+					if(this.tabTurtles.get(j).nearr(this.tabTurtles.get(i))){this.tabTurtles.get(j).contact(this.tabTurtles.get(i));}
 				}
 			}
 		}
 
 		for (Enemy mushroom : this.tabMushrooms) {
-			if (this.player.proche(mushroom) && mushroom.isVivant()) {
+			if (this.player.nearr(mushroom) && mushroom.isAlive()) {
 				this.player.contact(mushroom);
 			}
 		}
 		for (Enemy turtle : this.tabTurtles) {
-			if (this.player.proche(turtle) && turtle.isVivant()) {
+			if (this.player.nearr(turtle) && turtle.isAlive()) {
 				this.player.contact(turtle);
 			}
 		}
@@ -349,57 +339,57 @@ public class Level1Scene extends JPanel {
 
 		if(this.xPos >= 0 && this.xPos <= 4430){
 			for (Item tabItem : this.tabItems) {
-				tabItem.deplacement();
+				tabItem.movement();
 			}
 			for (Coin tabCoin : this.tabCoins) {
-				tabCoin.deplacement();
+				tabCoin.movement();
 			}
 			for (Enemy tabMushroom : this.tabMushrooms) {
-				tabMushroom.deplacement();
+				tabMushroom.movement();
 			}
 			for (Enemy tabTurtle : this.tabTurtles) {
-				tabTurtle.deplacement();
+				tabTurtle.movement();
 			}
 		}
 
-		g.drawImage(this.imgFond1, this.xFond1, 0, null);
-		g.drawImage(this.imgFond2, this.xFond2, 0, null);
+		g.drawImage(this.imgBR1, this.xBR1, 0, null);
+		g.drawImage(this.imgBR2, this.xBR2, 0, null);
 
 		for (Item tabItem : this.tabItems) {
 			g.drawImage(tabItem.getImgObjet(), tabItem.getX(), tabItem.getY(), null);
 		}
 
 		for (Coin tabCoin : this.tabCoins) {
-			g.drawImage(tabCoin.bouge(), tabCoin.getX(), tabCoin.getY(), null);
+			g.drawImage(tabCoin.move(), tabCoin.getX(), tabCoin.getY(), null);
 		}
 
-		g.drawImage(imgChateauFin, 4800 - this.xPos, 117, null);
+		g.drawImage(imgEnd, 4800 - this.xPos, 117, null);
 
-		if(this.player.isVivant()){
-			if(this.player.isSaut()){
-				g.drawImage(this.player.saute(), this.player.getX(), this.player.getY(), null);}
+		if(this.player.isAlive()){
+			if(this.player.isJump()){
+				g.drawImage(this.player.jump(), this.player.getX(), this.player.getY(), null);}
 			else{
-				g.drawImage(this.player.marche("marius", 25), this.player.getX(), this.player.getY(), null);}
+				g.drawImage(this.player.walk("marius", 25), this.player.getX(), this.player.getY(), null);}
 		}else{
-			g.drawImage(this.player.meurt(), this.player.getX(), this.player.getY(), null);}
+			g.drawImage(this.player.death(), this.player.getX(), this.player.getY(), null);}
 
 		for (Enemy tabMushroom : this.tabMushrooms) {
-			if (tabMushroom.isVivant()) {
-				g.drawImage(tabMushroom.marche("mush", 45), tabMushroom.getX(), tabMushroom.getY(), null);
+			if (tabMushroom.isAlive()) {
+				g.drawImage(tabMushroom.walk("mush", 45), tabMushroom.getX(), tabMushroom.getY(), null);
 			} else {
 				g.drawImage(tabMushroom.death(), tabMushroom.getX(), tabMushroom.getY() + 20, null);
 			}
 		}
 
 		for (Enemy tabTurtle : this.tabTurtles) {
-			if (tabTurtle.isVivant()) {
-				g.drawImage(tabTurtle.marche("turt", 50), tabTurtle.getX(), tabTurtle.getY(), null);
+			if (tabTurtle.isAlive()) {
+				g.drawImage(tabTurtle.walk("turt", 50), tabTurtle.getX(), tabTurtle.getY(), null);
 			} else {
 				g.drawImage(tabTurtle.death(), tabTurtle.getX(), tabTurtle.getY() + 30, null);
 			}
 		}
-		g.setFont(police);
-		g.drawString(STR."\{this.score.getNbrePieces()} Coin(s) / \{this.score.getNBRE_TOTAL_PIECES()}", 460, 25);
+		g.setFont(fontt);
+		g.drawString(STR."\{this.score.getNbrCoins()} Coin(s) / \{this.score.getNbrTotalCoins()}", 460, 25);
 
 		g.drawString(this.time.getStr(), 5, 25);
 

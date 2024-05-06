@@ -10,7 +10,7 @@ public class Item {
 	private int x, y;
 	
 	protected Image imgObjet;
-	protected ImageIcon icoObjet;
+	protected ImageIcon icoObject;
 
 	public Item(int x, int y, int width, int height){
 		this.x = x;
@@ -37,14 +37,14 @@ public class Item {
 
 	public void setHeight(int height) {this.height = height;}
 
-	public void deplacement(){
+	public void movement(){
 		
 		if(Main.level1Scene.getxPos() >= 0){
 			this.x = this.x - Main.level1Scene.getDx();
 		}
 	}
 	public void drawHitbox(Graphics g) {
-		Color hitboxColor = new Color(255, 0, 0, 128); // Red with 50% transparency
+		Color hitboxColor = new Color(255, 0, 0, 128);
 		g.setColor(hitboxColor);
 		g.drawRect(this.x, this.y, this.width, this.height);
 	}

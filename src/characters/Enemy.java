@@ -6,19 +6,16 @@ import javax.swing.ImageIcon;
 import items.Item;
 
 public class Enemy extends Character implements Runnable {
-    private Image imgEnemy;
-    private ImageIcon icoEnemy;
+    private final Image imgEnemy;
     private int dx;
-    private boolean isTurtle;
-    private int pause = 15;  // Common pause for all enemies, can be adjusted if needed
+    private final boolean isTurtle;
 
-    // Constructor
     public Enemy(String type, int x, int y) {
-        super(x, y, type.equals("Mushroom") ? 32 : 32, type.equals("Mushroom") ? 30 : 50);
+        super(x, y, 32, type.equals("Mushroom") ? 30 : 50);
         this.isTurtle = type.equals("Turtle");
-        this.dx = 1; // Starting movement direction
+        this.dx = 1;
         String imagePath = type.equals("Mushroom") ? "/images/mushNormalR.png" : "/images/turtNormalR.png";
-        this.icoEnemy = new ImageIcon(Objects.requireNonNull(getClass().getResource(imagePath)));
+        ImageIcon icoEnemy = new ImageIcon(Objects.requireNonNull(getClass().getResource(imagePath)));
         this.imgEnemy = icoEnemy.getImage();
         Thread chrono = new Thread(this);
         chrono.start();
@@ -29,7 +26,7 @@ public class Enemy extends Character implements Runnable {
     }
 
     public void move() {
-        if (super.isVersDroite()) {
+        if (super.isToRight()) {
             this.dx = 1;
         } else {
             this.dx = -1;
@@ -46,9 +43,10 @@ public class Enemy extends Character implements Runnable {
         }
 
         while (true) {
-            if (this.vivant) {
+            if (this.alive) {
                 this.move();
                 try {
+                    int pause = 15;
                     Thread.sleep(pause);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -58,27 +56,27 @@ public class Enemy extends Character implements Runnable {
     }
 
     public void contact(Item item) {
-        if (super.contactAvant(item) && this.isVersDroite()) {
-            super.setVersDroite(false);
+        if (super.contactAhead(item) && this.isToRight()) {
+            super.setToRight(false);
             this.dx = -1;
-        } else if (super.contactArriere(item) && !this.isVersDroite()) {
-            super.setVersDroite(true);
+        } else if (super.contactBehind(item) && !this.isToRight()) {
+            super.setToRight(true);
             this.dx = 1;
         }
     }
 
     public void contact(Character character) {
-        if (super.contactAvant(character) && this.isVersDroite()) {
-            super.setVersDroite(false);
+        if (super.contactAhead(character) && this.isToRight()) {
+            super.setToRight(false);
             this.dx = -1;
-        } else if (super.contactArriere(character) && !this.isVersDroite()) {
-            super.setVersDroite(true);
+        } else if (super.contactBehind(character) && !this.isToRight()) {
+            super.setToRight(true);
             this.dx = 1;
         }
     }
 
     public Image death() {
-        String str = isTurtle ? "/images/turtDeath.png" : (super.isVersDroite() ? "/images/mushDeathlR.png" : "/images/mushDeathlL.png.png");
+        String str = isTurtle ? "/images/turtDeath.png" : (super.isToRight() ? "/images/mushDeathlR.png" : "/images/mushDeathlL.png.png");
         ImageIcon ico = new ImageIcon(Objects.requireNonNull(getClass().getResource(str)));
         return ico.getImage();
     }

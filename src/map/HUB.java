@@ -3,43 +3,37 @@ package map;
 import mechanics.Main;
 
 public class HUB implements Runnable {
-    private int nbrePieces;
-    private int compteurTemps;
+    private int nbrCoins;
+    private int countTime;
     private String str;
-    private long lastUpdateTime;  // Added for time tracking
+    private long lastUpdateTime;
 
     public HUB() {
-        // Initialize score
-        this.nbrePieces = 0;
+        this.nbrCoins = 0;
 
-        // Initialize timer
-        this.compteurTemps = 100;
-        this.str = "Remaining time : " + this.compteurTemps;
+        this.countTime = 100;
+        this.str = STR."Remaining time : \{this.countTime}";
 
-        // Record the current time when the instance is created
         this.lastUpdateTime = System.currentTimeMillis();
 
-        // Start unified countdown timer and repaint thread
-        Thread compteARebours = new Thread(this);
-        compteARebours.start();
+        Thread countToEnd = new Thread(this);
+        countToEnd.start();
     }
 
-    // Score methods
-    public int getNbrePieces() {
-        return nbrePieces;
+    public int getNbrCoins() {
+        return nbrCoins;
     }
 
-    public void setNbrePieces(int nbrePieces) {
-        this.nbrePieces = nbrePieces;
+    public void setNbrCoins(int nbrCoins) {
+        this.nbrCoins = nbrCoins;
     }
 
-    public int getNBRE_TOTAL_PIECES() {
+    public int getNbrTotalCoins() {
         return 15;
     }
 
-    // Timer methods
-    public int getCompteurTemps() {
-        return compteurTemps;
+    public int getCountTime() {
+        return countTime;
     }
 
     public String getStr() {
@@ -51,19 +45,18 @@ public class HUB implements Runnable {
         while (true) {
             try {
                 if (Main.level1Scene != null) {
-                    Main.level1Scene.repaint();  // Continues to handle frequent game updates
+                    Main.level1Scene.repaint();
                 }
-                Thread.sleep(3);  // Sleep for 3 milliseconds
+                Thread.sleep(3);
 
                 long currentTime = System.currentTimeMillis();
-                // Check if a second has passed since the last update
                 if (currentTime - lastUpdateTime >= 1000) {
-                    this.compteurTemps--;  // Decrement the timer
-                    this.str = "Remaining time : " + this.compteurTemps;
-                    lastUpdateTime = currentTime;  // Reset the last update time
+                    this.countTime--;
+                    this.str = STR."Remaining time : \{this.countTime}";
+                    lastUpdateTime = currentTime;
                 }
             } catch (InterruptedException e) {
-                e.printStackTrace();  // Handle interruptions
+                e.printStackTrace();
             }
         }
     }

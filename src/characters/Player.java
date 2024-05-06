@@ -12,46 +12,46 @@ import items.Coin;
 public class Player extends Character {
 
 
-	private final Image imgMario;
-    private boolean saut;
-    private int compteurSaut;
-    private int compteurMort;
+	private final Image imgMarius;
+    private boolean jump;
+    private int countJump;
+    private int countDeath;
 
 	public Player(int x, int y) {
 
 	super(x, y, 28, 30);
         ImageIcon icoMario = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/mariusWalkR.png")));
-	this.imgMario = icoMario.getImage();
+	this.imgMarius = icoMario.getImage();
 	
-	this.saut = false;
-	this.compteurSaut = 0;
-	this.compteurMort = 0;
+	this.jump = false;
+	this.countJump = 0;
+	this.countDeath = 0;
 	}
 
-	public Image getImgMario() {return imgMario;}
+	public Image getImgMarius() {return imgMarius;}
 
-	public boolean isSaut() {return saut;}
+	public boolean isJump() {return jump;}
 
-	public void setSaut(boolean saut) {this.saut = saut;}
+	public void setJump(boolean jump) {this.jump = jump;}
 
 	@Override
-	public Image marche(String nom, int frequence) {
+	public Image walk(String nom, int frequence) {
     	String str;
     	ImageIcon ico;
 		Image img;
-		if (!this.marche || Main.level1Scene.getxPos() <= 0 || Main.level1Scene.getxPos() > 4430) {
-			if(this.versDroite){str = STR."src/images/\{nom}NormalR.png";}
+		if (!this.walk || Main.level1Scene.getxPos() <= 0 || Main.level1Scene.getxPos() > 4430) {
+			if(this.toRight){str = STR."src/images/\{nom}NormalR.png";}
 			else{str = STR."src/images/\{nom}NormalL.png";}
 		}else{
-		    this.compteur++;
-		    if (this.compteur / frequence == 0) {
-		    	if(this.versDroite){str = STR."src/images/\{nom}NormalR.png";}
+		    this.count++;
+		    if (this.count / frequence == 0) {
+		    	if(this.toRight){str = STR."src/images/\{nom}NormalR.png";}
 		    	else{str = STR."src/images/\{nom}NormalL.png";}
 		    }else{
-		    	if(this.versDroite){str = STR."src/images/\{nom}WalkR.png";}
+		    	if(this.toRight){str = STR."src/images/\{nom}WalkR.png";}
 		    	else{str = STR."src/images/\{nom}WalkL.png";}
 		    }
-		    if (this.compteur == 2 * frequence) {this.compteur = 0;}
+		    if (this.count == 2 * frequence) {this.count = 0;}
 		}
 
 		ico = new ImageIcon(str);
@@ -59,27 +59,27 @@ public class Player extends Character {
 		return img;
 	}
 
-    public Image saute(){
+    public Image jump(){
 	    ImageIcon ico;
 	    Image img;
 	    String str;
 	
-		this.compteurSaut++;
-		if(this.compteurSaut <= 40){
+		this.countJump++;
+		if(this.countJump <= 40){
 			if(this.getY() > Main.level1Scene.getHautPlafond()){this.setY(this.getY() - 4);}
-			else{this.compteurSaut = 41;}			
-			if(this.isVersDroite()){str = "/images/mariusJumpR.png";}
+			else{this.countJump = 41;}
+			if(this.isToRight()){str = "/images/mariusJumpR.png";}
 			else{str = "/images/mariusJumpL.png";}
 			
-		}else if(this.getY() + this.getHeight() < Main.level1Scene.getySol()){this.setY(this.getY() + 1);
-			if(this.isVersDroite()){str = "/images/mariusJumpR.png";}
+		}else if(this.getY() + this.getHeight() < Main.level1Scene.getyGrnd()){this.setY(this.getY() + 1);
+			if(this.isToRight()){str = "/images/mariusJumpR.png";}
 			else{str = "/images/mariusJumpL.png";}
 			
 		}else{
-			if(this.isVersDroite()){str = "/images/mariusNormalR.png";}
+			if(this.isToRight()){str = "/images/mariusNormalR.png";}
 			else{str = "/images/mariusNormalL.png";}
-			this.saut = false;
-			this.compteurSaut = 0;
+			this.jump = false;
+			this.countJump = 0;
 		}
 		ico = new ImageIcon(Objects.requireNonNull(getClass().getResource(str)));
 		img = ico.getImage();
@@ -87,46 +87,46 @@ public class Player extends Character {
 	}
     
 	public void contact(Item item) {
-		if((super.contactAvant(item) && this.isVersDroite()) || (super.contactArriere(item) && !this.isVersDroite())){
+		if((super.contactAhead(item) && this.isToRight()) || (super.contactBehind(item) && !this.isToRight())){
 			Main.level1Scene.setDx(0);
-		    this.setMarche(false);
+		    this.setWalk(false);
 		}
-        if(super.contactDessous(item) && this.saut){
-			Main.level1Scene.setySol(item.getY());
-		}else if(!super.contactDessous(item)){
-			Main.level1Scene.setySol(293);
-			if(!this.saut){this.setY(260);}
+        if(super.contactDown(item) && this.jump){
+			Main.level1Scene.setyGrnd(item.getY());
+		}else if(!super.contactDown(item)){
+			Main.level1Scene.setyGrnd(293);
+			if(!this.jump){this.setY(260);}
 		}
-        if(super.contactDessus(item)){
+        if(super.contactUp(item)){
 			Main.level1Scene.setHautPlafond(item.getY() + item.getHeight());
-		}else if(!super.contactDessus(item) && !this.saut){
+		}else if(!super.contactUp(item) && !this.jump){
 			Main.level1Scene.setHautPlafond(0);
 		}     
 	}
 	
-	public boolean contactPiece(Coin coin){
-        return this.contactArriere(coin) || this.contactAvant(coin) || this.contactDessous(coin) ||
-                this.contactDessus(coin);
+	public boolean contactCoin(Coin coin){
+        return this.contactBehind(coin) || this.contactAhead(coin) || this.contactDown(coin) ||
+                this.contactUp(coin);
 	}	
 
 	public void contact(Character character) {
-		if((super.contactAvant(character)) || (super.contactArriere(character))){
-			this.setMarche(false);
-		    this.setVivant(false);
-		}else if(super.contactDessous(character)){
-			character.setMarche(false);
-			character.setVivant(false);
+		if((super.contactAhead(character)) || (super.contactBehind(character))){
+			this.setWalk(false);
+		    this.setAlive(false);
+		}else if(super.contactDown(character)){
+			character.setWalk(false);
+			character.setAlive(false);
 		}
     }
 	
-	public Image meurt(){		
+	public Image death(){
 		String str;
     	ImageIcon ico;
 		Image img;	
 		
         str = "/images/death.png";
-        this.compteurMort++;
-        if(this.compteurMort > 100){
+        this.countDeath++;
+        if(this.countDeath > 100){
         	str = "/images/mariusDeath.png";
         	this.setY(this.getY() - 1);
         }
