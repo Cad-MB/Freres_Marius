@@ -254,17 +254,17 @@ public class Level1Scene extends JPanel {
 		else if(this.xBR2 == 800){this.xBR2 = -800;}
 	}
 
-	private boolean partieGagnee(){
+	private boolean win(){
 		return this.time.getCountTime() > 0 && this.player.isAlive() && this.score.getNbrCoins() == 15
 				&& this.xPos > 4400;
 	}
 
-	private boolean partiePerdue(){
+	private boolean lose(){
 		return !this.player.isAlive() || this.time.getCountTime() <= 0;
 	}
 
-	public boolean finDePartie(){
-		return this.partieGagnee() || this.partiePerdue();
+	public boolean endGame(){
+		return this.win() || this.lose();
 	}
 
 
@@ -420,10 +420,10 @@ public class Level1Scene extends JPanel {
 //			items.drawHitbox(g); // Draw hitbox for each coin
 //		}
 
-		if (this.finDePartie()) {
+		if (this.endGame()) {
 			Font policeFin = new Font("Arial", Font.BOLD, 50);
 			g.setFont(policeFin);
-			if (this.partieGagnee()) {
+			if (this.win()) {
 				g.drawString("Win", 250, 180);
 			} else {
 				g.drawString("Death", 250, 180);
